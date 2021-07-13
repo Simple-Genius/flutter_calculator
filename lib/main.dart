@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Color plusButtonColor, multiplyButtonColor, divideButtonColor;
 
 
+  List<String> ListOfOperands = ['+', '-', 'x', '÷'];
   String format(double n) {
     return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 2);
   }
@@ -65,18 +66,41 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool newCheck;
+  var element1;
   //change the sign to positive or negative
   signFunction() {
+    print(pressedButton.split('+')[1]);
+    ListOfOperands.forEach((element) {
+      if(pressedButton.contains(element)){
+         newCheck = true;
+      }
+    });
     if (pressedButton != '') {
-      if (pressedButton[0] != '-') {
+      if (pressedButton[0] != '-' && newCheck == false) {
+        print('first Condition');
         setState(() {
           pressedButton = '-$pressedButton';
         });
-      } else if (pressedButton[0] == '-') {
+      } else if (pressedButton[0] == '-' && newCheck == false) {
+        print("Second Condition");
         setState(() {
           pressedButton = pressedButton.replaceAll(r'-', '');
         });
       }
+      else if(newCheck == true) {
+        print("Third Condition");
+        ListOfOperands.forEach((element) {
+          if(pressedButton.contains('$element')){
+             element1 = element;
+          }
+        });
+        setState(() {
+          pressedButton = pressedButton.replaceFirst(pressedButton.split('$element1')[1], "(-${pressedButton.split('$element1')[1]})");
+        });
+        print(pressedButton);
+      }
+
     }
   }
 /*
